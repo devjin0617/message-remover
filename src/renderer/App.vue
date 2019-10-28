@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <!-- <router-view></router-view> -->
+    Hello World
   </div>
 </template>
 
@@ -11,5 +12,5 @@
 </script>
 
 <style>
-  /* CSS */
+/* CSS */
 </style>
