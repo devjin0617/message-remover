@@ -3,7 +3,7 @@
     <el-container style="height:100vh; border: 1px solid #eee;">
       <el-aside style="background-color: rgb(238, 241, 246)">
         <el-menu>
-          <el-menu-item @click="getChannels">
+          <el-menu-item @click="selectMenu('TOKEN_PAGE')">
             <i class="el-icon-menu"></i>
             <span>Set SlackToken</span>
           </el-menu-item>
@@ -15,7 +15,11 @@
             <template slot="title">
               <i class="el-icon-message"></i>Channel List
             </template>
-            <el-menu-item v-for="item in channels" :key="item.id">{{ item.name }}</el-menu-item>
+            <el-menu-item
+              v-for="item in channels"
+              :key="item.id"
+              @click="selectMenu('MESSAGE_PAGE')"
+            >{{ item.name }}</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
@@ -24,7 +28,8 @@
           <h1>Message Remover</h1>
         </el-header>
         <el-main>
-          <div style="margin-top:20px;">
+          <router-view></router-view>
+          <div style="margin-top:20px; display:none;">
             <el-input style="width:400px;" placeholder="input slack legacy token" v-model="token"></el-input>
             <div style="margin-top:10px;">
               <el-button type="primary" :round="true" @click="saveToken">save token</el-button>
@@ -125,6 +130,18 @@ export default {
       data.messages.forEach(v => {
         console.log(v)
       })
+    },
+    selectMenu (menuId) {
+      switch (menuId) {
+        case 'TOKEN_PAGE':
+          this.$router.push('/token')
+          break
+        case 'MESSAGE_PAGE':
+          this.$router.push('/message')
+          break
+        default:
+          break
+      }
     },
     async deleteMessage (ts) {
       // const { data } = await axios.post('/chat.delete', {
