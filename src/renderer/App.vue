@@ -3,10 +3,20 @@
     <el-container style="height:100vh; border: 1px solid #eee;">
       <el-aside style="background-color: rgb(238, 241, 246)">
         <el-menu>
-          <el-menu-item index="2" @click="getChannels">
+          <el-menu-item @click="getChannels">
+            <i class="el-icon-menu"></i>
+            <span>Set SlackToken</span>
+          </el-menu-item>
+          <el-menu-item @click="getChannels">
             <i class="el-icon-menu"></i>
             <span>Get Channels</span>
           </el-menu-item>
+          <el-submenu v-if="channels.length > 0">
+            <template slot="title">
+              <i class="el-icon-message"></i>Channel List
+            </template>
+            <el-menu-item v-for="item in channels" :key="item.id">{{ item.name }}</el-menu-item>
+          </el-submenu>
         </el-menu>
       </el-aside>
       <el-container>
