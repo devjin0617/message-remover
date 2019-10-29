@@ -1,27 +1,43 @@
 <template>
   <div id="app">
-    <div class="container">
-      <div>
-        <h1>Message Remover</h1>
-      </div>
-      <div style="margin-top:20px;">
-        <el-input style="width:400px;" placeholder="input slack legacy token" v-model="token"></el-input>
-        <div style="margin-top:10px;">
-          <el-button type="primary" :round="true" @click="saveToken">save token</el-button>
-          <el-button type="primary" :round="true" @click="getChannels">get channels</el-button>
-        </div>
-        {{ message }}
-        <div v-if="channels.length > 0" style="margin-top:20px;">
-          <el-select v-model="value" placeholder="select channel">
-            <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
-          </el-select>
-        </div>
-        {{ channel }}
-        <div v-if="value">
-          <el-button @click="getHistory">메시지 가져오기</el-button>
-        </div>
-      </div>
-    </div>
+    <el-container style="height:100vh; border: 1px solid #eee;">
+      <el-aside style="background-color: rgb(238, 241, 246)">
+        <el-menu>
+          <el-menu-item index="2" @click="getChannels">
+            <i class="el-icon-menu"></i>
+            <span>Get Channels</span>
+          </el-menu-item>
+        </el-menu>
+      </el-aside>
+      <el-container>
+        <el-header>
+          <h1>Message Remover</h1>
+        </el-header>
+        <el-main>
+          <div style="margin-top:20px;">
+            <el-input style="width:400px;" placeholder="input slack legacy token" v-model="token"></el-input>
+            <div style="margin-top:10px;">
+              <el-button type="primary" :round="true" @click="saveToken">save token</el-button>
+            </div>
+            {{ message }}
+            <div v-if="channels.length > 0" style="margin-top:20px;">
+              <el-select v-model="value" placeholder="select channel">
+                <el-option
+                  v-for="item in channels"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
+            </div>
+            {{ channel }}
+            <div v-if="value">
+              <el-button @click="getHistory">메시지 가져오기</el-button>
+            </div>
+          </div>
+        </el-main>
+      </el-container>
+    </el-container>
     <!-- <router-view></router-view> -->
   </div>
 </template>
@@ -37,7 +53,8 @@ export default {
       token: '',
       message: '',
       value: '',
-      channels: []
+      channels: [],
+      cursor: ''
     }
   },
   mounted () {
@@ -88,6 +105,15 @@ export default {
       data.messages.forEach(v => {
         console.log(v)
       })
+    },
+    async deleteMessage (ts) {
+      // const { data } = await axios.post('/chat.delete', {
+      //   params: {
+      //     token: this.token,
+      //     channel: this.channel,
+      //     ts
+      //   }
+      // })
     }
   }
 }
@@ -104,5 +130,13 @@ export default {
 }
 .container {
   text-align: center;
+}
+.el-header {
+  background-color: #b3c0d1;
+  color: #333;
+  line-height: 60px;
+}
+.el-aside {
+  color: #333;
 }
 </style>
