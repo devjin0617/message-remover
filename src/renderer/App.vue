@@ -29,11 +29,7 @@
         </el-header>
         <el-main>
           <router-view></router-view>
-          <div style="margin-top:20px; display:none;">
-            <el-input style="width:400px;" placeholder="input slack legacy token" v-model="token"></el-input>
-            <div style="margin-top:10px;">
-              <el-button type="primary" :round="true" @click="saveToken">save token</el-button>
-            </div>
+          <div style="margin-top:20px;">
             {{ message }}
             <div v-if="channels.length > 0" style="margin-top:20px;">
               <el-select v-model="value" placeholder="select channel">
@@ -65,17 +61,10 @@ export default {
   name: 'slack-message-remover',
   data () {
     return {
-      token: '',
       message: '',
       value: '',
       channels: [],
       cursor: ''
-    }
-  },
-  mounted () {
-    const localToken = localStorage.getItem('token')
-    if (localToken) {
-      this.token = localToken
     }
   },
   computed: {

@@ -9,7 +9,18 @@
 
 <script>
 export default {
-  name: 'token-page'
+  name: 'token-page',
+  data () {
+    return {
+      token: ''
+    }
+  },
+  mounted () {
+    const localToken = localStorage.getItem('token')
+    if (localToken) {
+      this.token = localToken
+    }
+  }
 }
 </script>
 
