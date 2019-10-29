@@ -90,16 +90,26 @@ export default {
       })
     },
     async getChannels () {
-      const { data } = await axios.get('/channels.list', {
-        params: {
-          token: this.token
-        }
-      })
-      this.$message({
-        message: '채널목록을 불러왔습니다.',
-        type: 'success'
-      })
-      this.channels = data.channels
+      const loading = this.$loading()
+      try {
+        const { data } = await axios.get('/channels.list', {
+          params: {
+            token: this.token
+          }
+        })
+        this.$message({
+          message: '채널목록을 불러왔습니다.',
+          type: 'success'
+        })
+        this.channels = data.channels
+      } catch (e) {
+        this.$message({
+          message: e.msg,
+          type: 'error'
+        })
+      } finally {
+        loading.close()
+      }
     },
     async getHistory () {
       const { data } = await axios.get('/conversations.history', {
