@@ -12,9 +12,13 @@
         </div>
         {{ message }}
         <div v-if="channels.length > 0" style="margin-top:20px;">
-          <el-select v-model="value" placeholder="select channel" @change="selectChannel">
-            <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item"></el-option>
+          <el-select v-model="value" placeholder="select channel">
+            <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
+        </div>
+        {{ channel }}
+        <div v-if="value">
+          <el-button @click="getHistory">메시지 가져오기</el-button>
         </div>
       </div>
     </div>
@@ -32,14 +36,22 @@ export default {
     return {
       token: '',
       message: '',
-      value: null,
+      value: '',
       channels: []
     }
   },
   mounted () {
-    const localToken = localStorage('token')
+    const localToken = localStorage.getItem('token')
     if (localToken) {
       this.token = localToken
+    }
+  },
+  computed: {
+    channel () {
+      if (this.channels.length === 0) {
+        return ''
+      }
+      return this.channels.find(v => v.id === this.value)
     }
   },
   methods: {
@@ -62,8 +74,20 @@ export default {
       })
       this.channels = data.channels
     },
-    selectChannel ($event) {
-      this.message = JSON.stringify($event)
+    async getHistory () {
+      const { data } = await axios.get('/conversations.history', {
+        params: {
+          token: this.token,
+          channel: this.value
+        }
+      })
+      this.$message({
+        message: '메시지 목록을 가져왔습니다.',
+        type: 'success'
+      })
+      data.messages.forEach(v => {
+        console.log(v)
+      })
     }
   }
 }
