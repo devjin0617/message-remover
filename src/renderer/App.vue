@@ -85,10 +85,18 @@ export default {
     },
     async getChannels () {
       const loading = this.$loading()
+      const token = localStorage.getItem('token')
+      if (!token) {
+        this.$message({
+          message: '토큰을 지정해주세요',
+          type: 'info'
+        })
+        return
+      }
       try {
         const { data } = await axios.get('/channels.list', {
           params: {
-            token: this.token
+            token
           }
         })
         this.$message({
