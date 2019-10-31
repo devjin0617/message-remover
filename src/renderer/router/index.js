@@ -15,7 +15,7 @@ export default new Router({
     component: require('@/pages/TokenPage').default
   },
   {
-    path: '/message',
+    path: '/message/:id',
     name: 'message-page',
     component: require('@/pages/MessagePage').default
   },

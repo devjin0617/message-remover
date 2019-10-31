@@ -18,7 +18,7 @@
             <el-menu-item
               v-for="item in channels"
               :key="item.id"
-              @click="selectMenu('MESSAGE_PAGE')"
+              @click="selectMenu({type: 'MESSAGE_PAGE', id: item.id})"
             >{{ item.name }}</el-menu-item>
           </el-submenu>
         </el-menu>
@@ -42,9 +42,6 @@
               </el-select>
             </div>
             {{ channel }}
-            <div v-if="value">
-              <el-button @click="getHistory">메시지 가져오기</el-button>
-            </div>
           </div>
         </el-main>
       </el-container>
@@ -106,28 +103,13 @@ export default {
         loading.close()
       }
     },
-    async getHistory () {
-      const { data } = await axios.get('/conversations.history', {
-        params: {
-          token: this.token,
-          channel: this.value
-        }
-      })
-      this.$message({
-        message: '메시지 목록을 가져왔습니다.',
-        type: 'success'
-      })
-      data.messages.forEach(v => {
-        console.log(v)
-      })
-    },
-    selectMenu (menuId) {
-      switch (menuId) {
+    selectMenu ({ type, id }) {
+      switch (type) {
         case 'TOKEN_PAGE':
           this.$router.push('/token')
           break
         case 'MESSAGE_PAGE':
-          this.$router.push('/message')
+          this.$router.push('/message/' + id)
           break
         default:
           break
