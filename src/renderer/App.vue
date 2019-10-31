@@ -76,13 +76,6 @@ export default {
     }
   },
   methods: {
-    saveToken () {
-      localStorage.setItem('token', this.token)
-      this.$message({
-        message: '토큰이 저장되었습니다.',
-        type: 'success'
-      })
-    },
     async getChannels () {
       const loading = this.$loading()
       const token = localStorage.getItem('token')

@@ -20,6 +20,22 @@ export default {
     if (localToken) {
       this.token = localToken
     }
+  },
+  methods: {
+    saveToken () {
+      if (!this.token) {
+        this.$message({
+          message: '토큰을 입력하세요',
+          type: 'error'
+        })
+        return
+      }
+      localStorage.setItem('token', this.token)
+      this.$message({
+        message: '토큰이 저장되었습니다.',
+        type: 'success'
+      })
+    }
   }
 }
 </script>
