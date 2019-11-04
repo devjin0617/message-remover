@@ -29,20 +29,6 @@
         </el-header>
         <el-main>
           <router-view></router-view>
-          <div style="margin-top:20px;">
-            {{ message }}
-            <div v-if="channels.length > 0" style="margin-top:20px;">
-              <el-select v-model="value" placeholder="select channel">
-                <el-option
-                  v-for="item in channels"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                ></el-option>
-              </el-select>
-            </div>
-            {{ channel }}
-          </div>
         </el-main>
       </el-container>
     </el-container>
